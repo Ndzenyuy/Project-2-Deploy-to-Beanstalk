@@ -62,5 +62,5 @@ jobs:
             echo "✓ Application is responding correctly!"
           fi
       
-      - name: Clean up
+      - name: Clean up 
         run: echo "Cleaning up after the deployment..."
