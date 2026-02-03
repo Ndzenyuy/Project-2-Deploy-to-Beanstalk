@@ -40,10 +40,11 @@ jobs:
         run: |
           echo "Deploying to Elastic Beanstalk..."
           # Create a ZIP file from the WAR file
-          zip -r myapp.zip target/lumiatech-v1.war
+          zip -r lumiatech.zip target/lumiatech-v1.war
+          aws s3 cp lumiatech.zip s3://ndzenyuy-test-bucket/lumiatech.zip
           
           # Deploy the ZIP file using the AWS CLI
-          aws elasticbeanstalk create-application-version --application $APPLICATION_NAME --version-label $GITHUB_RUN_NUMBER --source-bundle S3Bucket=my-bucket,S3Key=myapp.zip
+          aws elasticbeanstalk create-application-version --application $APPLICATION_NAME --version-label $GITHUB_RUN_NUMBER --source-bundle S3Bucket=ndzenyuy-test-bucket,S3Key=lumiatech.zip
           aws elasticbeanstalk update-environment --environment-name $ENVIRONMENT_NAME --version-label $GITHUB_RUN_NUMBER
 
       - name: Health Check
