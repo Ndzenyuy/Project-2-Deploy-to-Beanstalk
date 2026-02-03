@@ -18,11 +18,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'corretto'
-
-      - name: Set up Maven
-        uses: actions/setup-maven@v2
+      
+      - name: Set up Maven 3
+        uses: stCarolas/setup-maven@v4
         with:
-          maven-version: '3.8.1'
+          maven-version: '3.9.0'
       
       - name: Build artifact
         run: mvn clean package -DskipTests
