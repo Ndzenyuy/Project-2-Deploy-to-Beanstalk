@@ -1,0 +1,64 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Set up Maven
+        uses: actions/setup-maven@v2
+        with:
+          maven-version: '3.8.1'
+      
+      - name: Build artifact
+        run: mvn clean package -DskipTests
+
+      - name: Test
+        run: mvn test
+
+      - name: Deploy to Elastic Beanstalk
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-1' # Change to your region
+          APPLICATION_NAME: 'tomcat-app'
+          ENVIRONMENT_NAME: 'tomcat-app-env'
+        run: |
+          echo "Deploying to Elastic Beanstalk..."
+          # Create a ZIP file from the WAR file
+          zip -r myapp.zip target/lumiatech-v1.war
+          
+          # Deploy the ZIP file using the AWS CLI
+          aws elasticbeanstalk create-application-version --application $APPLICATION_NAME --version-label $GITHUB_RUN_NUMBER --source-bundle S3Bucket=my-bucket,S3Key=myapp.zip
+          aws elasticbeanstalk update-environment --environment-name $ENVIRONMENT_NAME --version-label $GITHUB_RUN_NUMBER
+
+      - name: Health Check
+        run: |
+          echo "Running health check..."
+          sleep 10 # Wait for a bit to let the app initialize
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://your-application-url)
+          echo "HTTP Response Code: $RESPONSE"
+          
+          if [[ "$RESPONSE" != "200" && "$RESPONSE" != "302" ]]; then
+            echo "⚠ Warning: Unexpected HTTP response code: $RESPONSE"
+            exit 1
+          else
+            echo "✓ Application is responding correctly!"
+          fi
+      
+      - name: Clean up
+        run: echo "Cleaning up after the deployment..."
