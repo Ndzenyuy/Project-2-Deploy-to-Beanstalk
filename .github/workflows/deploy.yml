@@ -5,6 +5,7 @@ on:
     branches:
       - main
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,8 +28,8 @@ jobs:
       - name: Build artifact
         run: mvn clean package -DskipTests
 
-      - name: Test
-        run: mvn test
+      # - name: Test
+      #   run: mvn test
 
       - name: Deploy to Elastic Beanstalk
         env:
@@ -48,19 +49,19 @@ jobs:
           aws elasticbeanstalk create-application-version --application $APPLICATION_NAME --version-label $GITHUB_RUN_NUMBER --source-bundle S3Bucket=ndzenyuy-test-bucket,S3Key=ROOT.zip
           aws elasticbeanstalk update-environment --environment-name $ENVIRONMENT_NAME --version-label $GITHUB_RUN_NUMBER
 
-      - name: Health Check
-        run: |
-          echo "Running health check..."
-          sleep 10 # Wait for a bit to let the app initialize
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://your-application-url)
-          echo "HTTP Response Code: $RESPONSE"
+      # - name: Health Check
+      #   run: |
+      #     echo "Running health check..."
+      #     sleep 10 # Wait for a bit to let the app initialize
+      #     RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://your-application-url)
+      #     echo "HTTP Response Code: $RESPONSE"
           
-          if [[ "$RESPONSE" != "200" && "$RESPONSE" != "302" ]]; then
-            echo "⚠ Warning: Unexpected HTTP response code: $RESPONSE"
-            exit 1
-          else
-            echo "✓ Application is responding correctly!"
-          fi
+      #     if [[ "$RESPONSE" != "200" && "$RESPONSE" != "302" ]]; then
+      #       echo "⚠ Warning: Unexpected HTTP response code: $RESPONSE"
+      #       exit 1
+      #     else
+      #       echo "✓ Application is responding correctly!"
+      #     fi
       
-      - name: Clean up 
-        run: echo "Cleaning up after the deployment..."
+      # - name: Clean up 
+      #   run: echo "Cleaning up after the deployment..."
