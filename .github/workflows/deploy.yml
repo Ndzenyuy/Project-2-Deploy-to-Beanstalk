@@ -36,8 +36,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1' # Change to your region
-          APPLICATION_NAME: 'lumiatech-tomcat-app'
-          ENVIRONMENT_NAME: 'lumiatech-tomcat-app-env'
+          APPLICATION_NAME: 'tomcat-app'
+          ENVIRONMENT_NAME: 'tomcat-app-env'
         run: |
           echo "Deploying to Elastic Beanstalk..."
           # Create a ZIP file from the WAR file
