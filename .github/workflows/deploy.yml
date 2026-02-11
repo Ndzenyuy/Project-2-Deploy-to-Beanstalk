@@ -78,6 +78,15 @@ jobs:
           aws elasticbeanstalk create-application-version --application $APPLICATION_NAME --version-label $GITHUB_RUN_NUMBER --source-bundle S3Bucket=ndzenyuy-test-bucket,S3Key=ROOT.zip
           aws elasticbeanstalk update-environment --environment-name $ENVIRONMENT_NAME --version-label $GITHUB_RUN_NUMBER
 
+      - name: Trivy Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'target/lumiatech-v1.war'
+          format: 'table'
+          exit-code: '1'
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
         
       # - name: Clean up 
       #   run: echo "Cleaning up after the deployment..."
