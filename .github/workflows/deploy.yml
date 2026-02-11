@@ -78,11 +78,16 @@ jobs:
           aws elasticbeanstalk create-application-version --application $APPLICATION_NAME --version-label $GITHUB_RUN_NUMBER --source-bundle S3Bucket=ndzenyuy-test-bucket,S3Key=ROOT.zip
           aws elasticbeanstalk update-environment --environment-name $ENVIRONMENT_NAME --version-label $GITHUB_RUN_NUMBER
 
-      - name: Trivy Scan WAR
+      - name: Extract WAR
+        run: |
+          mkdir extracted
+          unzip target/lumiatech-v1.war -d extracted
+
+      - name: Trivy Scan Extracted WAR
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
-          scan-ref: 'target/lumiatech-v1.war'
+          scan-ref: 'extracted'
           format: 'table'
           exit-code: '1'
           severity: 'HIGH,CRITICAL'
