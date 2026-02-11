@@ -57,19 +57,19 @@ jobs:
         run: mvn clean package -DskipTests
 
 
-      # - name: Extract WAR
-      #   run: |
-      #     mkdir extracted
-      #     unzip target/lumiatech-v1.war -d extracted
+      - name: Extract WAR
+        run: |
+          mkdir extracted
+          unzip target/lumiatech-v1.war -d extracted
 
-      # - name: Trivy Scan Extracted WAR
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     scan-type: 'fs'
-      #     scan-ref: 'extracted'
-      #     format: 'table'
-      #     exit-code: '1'
-      #     severity: 'HIGH,CRITICAL'
+      - name: Trivy Scan Extracted WAR
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: 'extracted'
+          format: 'table'
+          exit-code: '1'
+          severity: 'HIGH,CRITICAL'
 
       - name: Deploy to Elastic Beanstalk
         env:
