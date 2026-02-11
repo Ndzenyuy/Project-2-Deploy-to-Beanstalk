@@ -5,7 +5,6 @@ on:
     branches:
       - main
 
-
 jobs:
   sonar:
     runs-on: ubuntu-latest
@@ -28,8 +27,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=lumiatech-beanstalk_project-2
-            -Dsonar.organization=lumiatech-beanstalk
+            -Dsonar.projectKey=lumia-beanstalk_project-2
+            -Dsonar.organization=lumia-beanstalk
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.java.binaries=target/classes
             -Dsonar.branch.name=master
@@ -77,8 +76,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1' # Change to your region
-          APPLICATION_NAME: 'lumiatech-tomcat-app'
-          ENVIRONMENT_NAME: 'lumiatech-tomcat-app-env'
+          APPLICATION_NAME: 'lumiatech-tomcat-app-v2'
+          ENVIRONMENT_NAME: 'lumiatech-tomcat-app-env-v2'
         run: |
           echo "Deploying to Elastic Beanstalk..."
           # Create a ZIP file from the WAR file
@@ -90,8 +89,4 @@ jobs:
           aws elasticbeanstalk create-application-version --application $APPLICATION_NAME --version-label $GITHUB_RUN_NUMBER --source-bundle S3Bucket=ndzenyuy-test-bucket,S3Key=ROOT.zip
           aws elasticbeanstalk update-environment --environment-name $ENVIRONMENT_NAME --version-label $GITHUB_RUN_NUMBER
 
-
-
-        
-      # - name: Clean up 
-      #   run: echo "Cleaning up after the d
+      

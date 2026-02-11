@@ -24,7 +24,7 @@
         <logback.version>1.5.6</logback.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <sonar.organization>lumiatech-beanstalk</sonar.organization>
+        <sonar.organization>lumia-beanstalk</sonar.organization>
     </properties>
 
 
