@@ -24,12 +24,14 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
             -Dsonar.projectKey=lumiatech-beanstalk_project-2
             -Dsonar.organization=lumiatech-beanstalk
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}      
+                 
       
   build:
     runs-on: ubuntu-latest
