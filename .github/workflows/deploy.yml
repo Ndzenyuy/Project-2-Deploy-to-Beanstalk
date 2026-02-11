@@ -6,6 +6,22 @@ on:
       - main
 
 jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/library/tomcat:latest'
+          format: 'table'
+          exit-code: '1'
+          severity: 'HIGH,CRITICAL'
+          vuln-type: 'os,library'      
+      
   build:
     runs-on: ubuntu-latest
     
