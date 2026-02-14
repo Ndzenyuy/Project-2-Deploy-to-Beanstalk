@@ -58,7 +58,7 @@ jobs:
           maven-version: '3.9.0'
       
       - name: Build artifact
-        run: mvn clean package -DskipTests
+        run: mvn clean package -DskipTests 
 
 
       - name: Extract WAR
