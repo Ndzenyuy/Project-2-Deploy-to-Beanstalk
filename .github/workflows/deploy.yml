@@ -79,7 +79,7 @@ jobs:
           APPLICATION_NAME: 'lumiatech-tomcat-app-v2'
           ENVIRONMENT_NAME: 'lumiatech-tomcat-app-env-v2'
         run: |
-          echo "Deploying to Elastic Beanstalk..."
+          echo "Deploying to Elastic Beanstalk..." 
           # Create a ZIP file from the WAR file
           cp target/lumiatech-v1.war ROOT.war
           zip -r ROOT.zip ROOT.war
